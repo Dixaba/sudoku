@@ -3,6 +3,7 @@
 extern crate log;
 
 use std::convert::Infallible;
+use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use warp::http::StatusCode;
 use warp::{reject, Filter, Rejection, Reply};
 
@@ -26,7 +27,6 @@ static PAGE404: &str = r"
 async fn p404(_: Rejection) -> Result<impl Reply, Infallible> {
     Ok(warp::reply::with_status(
         warp::reply::html(PAGE404),
-
         StatusCode::NOT_FOUND,
     ))
 }
@@ -34,7 +34,7 @@ async fn p404(_: Rejection) -> Result<impl Reply, Infallible> {
 #[tokio::main]
 async fn main() {
     pretty_env_logger::env_logger::from_env(
-        pretty_env_logger::env_logger::Env::default().default_filter_or("warn")
+        pretty_env_logger::env_logger::Env::default().default_filter_or("warn"),
     )
     .init();
 
@@ -49,5 +49,7 @@ async fn main() {
 
     info!("Serving static files from {}", WEB_ROOT);
 
-    warp::serve(routes).run(([127, 0, 0, 1], 9917)).await;
+    let socket = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(0, 0, 0, 0)), 9917);
+
+    warp::serve(routes).run(socket).await;
 }
