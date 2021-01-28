@@ -1,15 +1,17 @@
 [package]
-authors = [ "dixaba" ]
+authors = ["dixaba"]
 edition = "2018"
 name    = "sudoku"
 version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[dependencies]
+[profile.release]
+lto = true
 
+[dependencies]
 daemonize         = "0.4.1"
-log               = "0.4.8"
+log               = "0.4.11"
 pretty_env_logger = "0.4.0"
-tokio             = { version = "0.2.21", features = [ "macros" ] }
-warp              = "^0.2.3"
+tokio             = { version = "1.0.1", features = ["macros", "rt-multi-thread"] }
+warp              = "0.3.0"
