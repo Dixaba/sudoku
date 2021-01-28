@@ -41,5 +41,17 @@
 			"group": "build",
 			"label": "Run"
 		},
+		{
+			"type": "process",
+			"command": "cargo",
+			"args": [
+				"fmt"
+			],
+			"problemMatcher": [
+				"$rustc"
+			],
+			"group": "build",
+			"label": "Format"
+		},
 	]
 }
